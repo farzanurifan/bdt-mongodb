@@ -21,8 +21,17 @@ app.listen(3000, () => {
 })
 
 app.get('/', (req, res) => {
+    res.redirect('/page/1')
+})
+
+app.get('/page/:page', (req, res) => {
+    let alldata = 0
+    var page = Number(req.params.page)
     db.collection('quotes').find().toArray((err, results) => {
-        res.render('index.ejs', { quotes: results })
+        alldata = results.length
+        db.collection('quotes').find().skip(10 * (page - 1)).limit(10).toArray((err, results) => {
+            res.render('index.ejs', { quotes: results, page, alldata })
+        })
     })
 })
 

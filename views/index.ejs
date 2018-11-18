@@ -3,34 +3,75 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <title>MY APP</title>
 </head>
 
 <body>
-    <a href='/add'>
-        <button>Add</button>
-    </a>
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Quote</th>
-            <th>Action</th>
-        <tr>
-        <% for(var i=0; i<quotes.length; i++) {%>
-            <tr>
-                <td><%= quotes[i].name %></td>
-                <td><%= quotes[i].quote %></td>
-                <td>
-                    <form action=<%= '/edit/' + quotes[i]._id %> method="GET">
-                        <button type="submit">Edit</button>
-                    </form>
-                    <form action=<%= '/delete/' + quotes[i]._id  + '?_method=DELETE' %> method="POST">
-                        <button type="submit">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        <% } %>
-    </table>
+    <section class="section">
+        <a href='/add' class="button is-success is-small" style="margin-bottom: 2em">
+            Add
+        </a>
+        <div style="overflow-x: auto">
+            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Quote</th>
+                        <th>Action</th>
+                        <th style="position: absolute; right: 1.5rem; width: 7em; background-color: white">Action</th>
+                    <tr>
+                </thead>
+                <tbody>
+                    <% for(var i=0; i<quotes.length; i++) {%>
+                        <tr>
+                            <td nowrap><%= quotes[i].name %></td>
+                            <td nowrap><%= quotes[i].quote %></td>
+                            <td nowrap style="width: 7em; background-color: white">
+                                <div class="columns is-gapless">
+                                    <div class="column">
+                                        <a href=<%= '/edit/' + quotes[i]._id %>  class="button is-info is-small">
+                                            Edit
+                                        </a>
+                                    </div>
+                                    <div class="column">
+                                        <form action=<%= '/delete/' + quotes[i]._id  + '?_method=DELETE' %> method="POST">
+                                            <button type="submit" class="button is-danger is-small">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
+                            <td nowrap style="position: absolute; right: 1.5rem; width: 7em; background-color: white">
+                                <div class="columns is-gapless">
+                                    <div class="column">
+                                        <a href=<%= '/edit/' + quotes[i]._id %>  class="button is-info is-small">
+                                            Edit
+                                        </a>
+                                    </div>
+                                    <div class="column">
+                                        <form action=<%= '/delete/' + quotes[i]._id  + '?_method=DELETE' %> method="POST">
+                                            <button type="submit" class="button is-danger is-small">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+        <nav class="pagination is-small" role="navigation" aria-label="pagination" style="margin-top: 2em">
+            <a <% if(page - 1 == 0) {%><%= "disabled" %> <% } %> class="pagination-previous" href="/page/<%= page - 1%>">Previous</a>
+            <a <% if(page == Math.ceil(alldata/10)) {%><%= "disabled" %> <% } %> class="pagination-next" href="/page/<%= page + 1%>">Next page</a>
+            <ul class="pagination-list">
+                <% for(var i=1; i<=Math.ceil(alldata/10); i++) {%>
+                    <li><a class="pagination-link <% if(page == i) {%> <%= "is-current" %> <% } %>" aria-label="Goto page <%= i%>" href="/page/<%= i%>"><%= i%></a></li>
+                <% } %>
+            </ul>
+        </nav>
+    </section>
 </body>
 
 </html>
