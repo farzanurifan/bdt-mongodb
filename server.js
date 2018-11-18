@@ -5,22 +5,18 @@ const partials = require('express-partials')
 const MongoClient = require('mongodb').MongoClient
 const ObjectId = require('mongodb').ObjectID;
 
-const logError = (err) => {
-    if (err) return console.log(err)
-}
+const database = 'bdt'
+const table = 'nba'
 
-const logMessage = (message) => {
-    console.log(message)
-}
+const logError = (err) => { if (err) return console.log(err) }
+const logMessage = (message) => console.log(message)
 
 const app = express()
+
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.set('view engine', 'ejs')
 app.use(partials())
-
-const database = 'nba'
-const table = 'quotes'
 
 var db
 var uri = 'mongodb+srv://farzanurifan:bismillah@bdt-6ij3v.mongodb.net/test'
@@ -29,27 +25,31 @@ MongoClient.connect(uri, { useNewUrlParser: true }, (err, client) => {
     db = client.db(database)
 })
 
-app.listen(3000, () => {
-    logMessage('listening on 3000')
-})
+app.listen(3000, () => logMessage('listening on 3000'))
 
-app.get('/', (req, res) => {
-    res.redirect('/page/1')
-})
+app.get('/', (req, res) => res.redirect('/page/1'))
 
 app.get('/page/:page', (req, res) => {
     var page = Number(req.params.page)
     db.collection(table).find().toArray((err, results) => {
-        var alldata = results.length
+        var pages = Math.ceil(results.length / 10)
+        let first = 2
+        let last = 9
+        if (page > 6 && !(page > pages - 6)) {
+            first = page - 3
+            last = page + 3
+        }
+        else {
+            first = pages - 8
+            last = pages - 1
+        }
         db.collection(table).find().skip(10 * (page - 1)).limit(10).toArray((err, results) => {
-            res.render('index.ejs', { results, page, alldata })
+            res.render('index.ejs', { results, page, pages, first, last })
         })
     })
 })
 
-app.get('/add', (req, res) => {
-    res.render('add.ejs')
-})
+app.get('/add', (req, res) => res.render('add.ejs'))
 
 app.post('/create', (req, res) => {
     db.collection(table).save(req.body, (err, result) => {
