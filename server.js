@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const express = require('express')
+const partials = require('express-partials')
 const MongoClient = require('mongodb').MongoClient
 const ObjectId = require('mongodb').ObjectID;
 
@@ -16,6 +17,7 @@ const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.set('view engine', 'ejs')
+app.use(partials())
 
 const database = 'nba'
 const table = 'quotes'
