@@ -64,15 +64,17 @@
     <a <% if(page == pages) {%><%= 'disabled' %> <% } else { %> <%= 'href=/page/' %><%= page + 1 %> %> <% } %> class='pagination-next'>Next page</a>
     <ul class='pagination-list'>
         <li><a class='pagination-link <% if(page == 1) {%> <%= 'is-current' %> <% } %>' aria-label='Goto page 1' href='/page/1'>1</a></li>
-        <% if(page > 6) { %>
-            <li><span class="pagination-ellipsis">&hellip;</span></li>
+        <% if(pages > 1) { %>
+            <% if(page > 6 && pages > 11) { %>
+                <li><span class="pagination-ellipsis">&hellip;</span></li>
+            <% } %>
+            <% for(var i=first; i<=last; i++) {%>
+                <li><a class='pagination-link <% if(page == i) {%> <%= 'is-current' %> <% } %>' aria-label='Goto page <%= i%>' href='/page/<%= i%>'><%= i%></a></li>
+            <% } %>
+            <% if(page < pages - 5 && pages > 11) { %>
+                <li><span class="pagination-ellipsis">&hellip;</span></li>
+            <% } %>
+            <li><a class='pagination-link <% if(page == pages) {%> <%= 'is-current' %> <% } %>' aria-label='Goto page <%= pages%>' href='/page/<%= pages%>'><%= pages%></a></li>
         <% } %>
-        <% for(var i=first; i<=last; i++) {%>
-            <li><a class='pagination-link <% if(page == i) {%> <%= 'is-current' %> <% } %>' aria-label='Goto page <%= i%>' href='/page/<%= i%>'><%= i%></a></li>
-        <% } %>
-        <% if(page < pages - 5) { %>
-            <li><span class="pagination-ellipsis">&hellip;</span></li>
-        <% } %>
-        <li><a class='pagination-link <% if(page == pages) {%> <%= 'is-current' %> <% } %>' aria-label='Goto page <%= pages%>' href='/page/<%= pages%>'><%= pages%></a></li>
     </ul>
 </nav>
