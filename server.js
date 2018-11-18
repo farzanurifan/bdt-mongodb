@@ -7,6 +7,7 @@ const ObjectId = require('mongodb').ObjectID;
 
 const database = 'bdt'
 const table = 'nba'
+const pageItem = 10
 
 const logError = (err) => { if (err) return console.log(err) }
 const logMessage = (message) => console.log(message)
@@ -31,19 +32,19 @@ app.get('/', (req, res) => res.redirect('/page/1'))
 
 app.get('/page/:page', (req, res) => {
     var page = Number(req.params.page)
-    db.collection(table).find().toArray((err, results) => {
-        var pages = Math.ceil(results.length / 10)
+    db.collection(table).find().count((err, results) => {
+        var pages = Math.ceil(results / pageItem)
         let first = 2
         let last = 9
         if (page > 6 && !(page > pages - 6)) {
             first = page - 3
             last = page + 3
         }
-        else {
+        else if (page > pages - 6) {
             first = pages - 8
             last = pages - 1
         }
-        db.collection(table).find().skip(10 * (page - 1)).limit(10).toArray((err, results) => {
+        db.collection(table).find().skip(pageItem * (page - 1)).limit(pageItem).toArray((err, results) => {
             res.render('index.ejs', { results, page, pages, first, last })
         })
     })
