@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MY APP</title>
+</head>
+
+<body>
+    <a href='/add'>
+        <button>Add</button>
+    </a>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Quote</th>
+            <th>Action</th>
+        <tr>
+        <% for(var i=0; i<quotes.length; i++) {%>
+            <tr>
+                <td><%= quotes[i].name %></td>
+                <td><%= quotes[i].quote %></td>
+                <td>
+                    <form action=<%= '/edit/' + quotes[i]._id %> method="GET">
+                        <button type="submit">Edit</button>
+                    </form>
+                    <form action=<%= '/delete/' + quotes[i]._id  + '?_method=DELETE' %> method="POST">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        <% } %>
+    </table>
+</body>
+
+</html>
