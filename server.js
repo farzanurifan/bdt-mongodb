@@ -7,7 +7,7 @@ const ObjectId = require('mongodb').ObjectID;
 
 const database = 'bdt'
 const table = 'nba'
-const pageItem = 1
+const pageItem = 10
 
 const logError = (err) => { if (err) return console.log(err) }
 const logMessage = (message) => console.log(message)
