@@ -1,31 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css'>
+    <script defer src='https://use.fontawesome.com/releases/v5.3.1/js/all.js'></script>
     <title>MY APP</title>
 </head>
 
 <body>
-    <section class="section">
-        <a href='/' class="button is-danger is-small" style="margin-bottom: 2em">
+    <h1>Created with Node Js, Express, EJS, MongoDB, Bulma</h1>
+    <section class='section'>
+        <a href='/' class='button is-danger is-small' style='margin-bottom: 2em'>
             Back
         </a>
-        <form action=<%= '/update/' + quote._id + '?_method=PUT' %> method="POST">
-            <div class="field">
-                <div class="control">
-                    <input class="input" type="text" placeholder="name" name="name" value='<%= quote.name %>'>
+        <form action=<%= '/update/' + result._id + '?_method=PUT' %> method='POST'>
+            <div class='field'>
+                <div class='control'>
+                    <input class='input' type='text' placeholder='name' name='name' value='<%= result.name %>'>
                 </div>
             </div>
-            <div class="field">
-                <div class="control">
-                <input class="input" type="text" placeholder="quote" name="quote" value='<%= quote.quote %>'>
+            <div class='field'>
+                <div class='control'>
+                <input class='input' type='text' placeholder='result' name='result' value='<%= result.result %>'>
                 </div>
             </div>
-            <button type="submit" class="button is-success is-small">Submit</button>
+            <button type='submit' class='button is-success is-small'>Submit</button>
         </form>
     </section>
 </body>
