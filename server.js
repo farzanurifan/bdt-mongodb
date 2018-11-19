@@ -3,7 +3,7 @@ const methodOverride = require('method-override')
 const express = require('express')
 const partials = require('express-partials')
 const MongoClient = require('mongodb').MongoClient
-const ObjectId = require('mongodb').ObjectID;
+const ObjectId = require('mongodb').ObjectID
 
 const database = 'bdt'
 const table = 'nba'
