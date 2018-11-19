@@ -8,6 +8,10 @@ const ObjectId = require('mongodb').ObjectID;
 const database = 'bdt'
 const table = 'nba'
 const pageItem = 10
+const fields = [
+    'Age', 'Conference', 'Date', 'Draft Year', 'Height', 'Player', 'Position',
+    'Season', 'Season short', 'Seasons in league', 'Team', 'Weight', 'Real_value'
+]
 
 const logError = (err) => { if (err) return console.log(err) }
 const logMessage = (message) => console.log(message)
@@ -20,12 +24,45 @@ app.set('view engine', 'ejs')
 app.use(partials())
 
 var db
-var uri = 'mongodb://192.168.33.10:27017/test'
-// var uri = 'mongodb+srv://farzanurifan:bismillah@bdt-6ij3v.mongodb.net/test'
-MongoClient.connect(uri, { useNewUrlParser: true }, (err, client) => {
+var uri = ['mongodb://192.168.33.10:27017', 'mongodb://192.168.33.11:27017', 'mongodb://192.168.33.12:27017']
+let i = 0
+
+const connect = (uri, i) => MongoClient.connect(uri[i], { useNewUrlParser: true, }, (err, client) => {
     logError(err)
+    if (err) {
+        i += 1
+        if (i == 3) i = 0
+        return connect(uri, i)
+    }
     db = client.db(database)
+    db.collection(table).find().count((err, results) => {
+        if (results == null) {
+            i += 1
+            if (i == 3) i = 0
+            return connect(uri, i)
+        }
+    })
 })
+
+if (i == 0) connect(uri, 0)
+
+const pagination = (results, page) => {
+    var pages = Math.ceil(results / pageItem)
+    let first = 2
+    let last = 9
+    if (pages <= 11) {
+        last = pages - 1
+    }
+    else if (page > 6 && !(page > pages - 6)) {
+        first = page - 3
+        last = page + 3
+    }
+    else if (page > pages - 6) {
+        first = pages - 8
+        last = pages - 1
+    }
+    return { pages, first, last }
+}
 
 app.listen(3000, () => logMessage('listening on 3000'))
 
@@ -34,27 +71,14 @@ app.get('/', (req, res) => res.redirect('/page/1'))
 app.get('/page/:page', (req, res) => {
     var page = Number(req.params.page)
     db.collection(table).find().count((err, results) => {
-        var pages = Math.ceil(results / pageItem)
-        let first = 2
-        let last = 9
-        if (pages <= 11) {
-            last = pages - 1
-        }
-        else if (page > 6 && !(page > pages - 6)) {
-            first = page - 3
-            last = page + 3
-        }
-        else if (page > pages - 6) {
-            first = pages - 8
-            last = pages - 1
-        }
+        const paginate = pagination(results, page)
         db.collection(table).find().skip(pageItem * (page - 1)).limit(pageItem).toArray((err, results) => {
-            res.render('index.ejs', { results, page, pages, first, last })
+            res.render('index.ejs', { results, page, ...paginate, fields })
         })
     })
 })
 
-app.get('/add', (req, res) => res.render('add.ejs'))
+app.get('/add', (req, res) => res.render('add.ejs', { fields }))
 
 app.post('/create', (req, res) => {
     db.collection(table).save(req.body, (err, result) => {
@@ -68,7 +92,7 @@ app.get('/edit/:id', (req, res) => {
     var id = ObjectId(req.params.id)
     db.collection(table).find(id).toArray((err, results) => {
         result = results[0]
-        res.render('edit.ejs', { result })
+        res.render('edit.ejs', { result, fields })
     })
 })
 

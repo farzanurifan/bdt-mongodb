@@ -2,83 +2,13 @@
     Back
 </a>
 <form action=<%= '/update/' + result._id + '?_method=PUT' %> method='POST' style="max-width: 500px">
-    <div class='field'>
-        <label class="label">Age</label>
-        <div class='control'>
-            <input class='input' type='text' placeholder='Age' name='Age' value='<%= result.Age %>'>
+    <% for(var j=0; j<fields.length; j++) {%>
+        <div class='field'>
+            <label class="label"><%= fields[j] %></label>
+            <div class='control'>
+                <input class='input' type='text' placeholder='<%= fields[j] %>' name='<%= fields[j] %>' value='<%= result[fields[j]] %>'>
+            </div>
         </div>
-    </div>
-    <div class='field'>
-        <label class="label">Conference</label>
-        <div class='control'>
-            <input class='input' type='text' placeholder='Conference' name='Conference' value='<%= result.Conference %>'>
-        </div>
-    </div>
-    <div class='field'>
-        <label class="label">Date</label>
-        <div class='control'>
-            <input class='input' type='text' placeholder='Date' name='Date' value='<%= result.Date %>'>
-        </div>
-    </div>
-    <div class='field'>
-        <label class="label">Draft Year</label>
-        <div class='control'>
-            <input class='input' type='text' placeholder='Draft Year' name='Draft Year' value='<%= result['Draft Year'] %>'>
-        </div>
-    </div>
-    <div class='field'>
-        <label class="label">Height</label>
-        <div class='control'>
-            <input class='input' type='text' placeholder='Height' name='Height' value='<%= result.Height %>'>
-        </div>
-    </div>
-    <div class='field'>
-        <label class="label">Player</label>
-        <div class='control'>
-            <input class='input' type='text' placeholder='Player' name='Player' value='<%= result.Player %>'>
-        </div>
-    </div>
-    <div class='field'>
-        <label class="label">Position</label>
-        <div class='control'>
-            <input class='input' type='text' placeholder='Position' name='Position' value='<%= result.Position %>'>
-        </div>
-    </div>
-    <div class='field'>
-        <label class="label">Season</label>
-        <div class='control'>
-            <input class='input' type='text' placeholder='Season' name='Season' value='<%= result.Season %>'>
-        </div>
-    </div>
-    <div class='field'>
-        <label class="label">Season short</label>
-        <div class='control'>
-            <input class='input' type='text' placeholder='Season short' name='Season short' value='<%= result['Season short'] %>'>
-        </div>
-    </div>
-    <div class='field'>
-        <label class="label">Seasons in league</label>
-        <div class='control'>
-            <input class='input' type='text' placeholder='Seasons in league' name='Seasons in league' value='<%= result['Seasons in league'] %>'>
-        </div>
-    </div>
-    <div class='field'>
-        <label class="label">Team</label>
-        <div class='control'>
-            <input class='input' type='text' placeholder='Team' name='Team' value='<%= result.Team %>'>
-        </div>
-    </div>
-    <div class='field'>
-        <label class="label">Weight</label>
-        <div class='control'>
-            <input class='input' type='text' placeholder='Weight' name='Weight' value='<%= result.Weight %>'>
-        </div>
-    </div>
-    <div class='field'>
-        <label class="label">Real_value</label>
-        <div class='control'>
-            <input class='input' type='text' placeholder='Real_value' name='Real_value' value='<%= result.Real_value %>'>
-        </div>
-    </div>
+    <% } %>
     <button type='submit' class='button is-success is-small'>Submit</button>
 </form>

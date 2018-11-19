@@ -5,19 +5,9 @@
     <table class='table is-bordered is-striped is-narrow is-hoverable is-fullwidth'>
         <thead>
             <tr>
-                <th>Age</th>
-                <th>Conference</th>
-                <th>Date</th>
-                <th>Draft Year</th>
-                <th>Height</th>
-                <th>Player</th>
-                <th>Position</th>
-                <th>Season</th>
-                <th>Season short</th>
-                <th>Seasons in league</th>
-                <th>Team</th>
-                <th>Weight</th>
-                <th>Real_value</th>
+                <% for(var i=0; i<fields.length; i++) {%>
+                    <th><%= fields[i] %></th>
+                <% } %>
                 <th>Action</th>
                 <th style='position: absolute; right: 1.5rem; width: 9em; background-color: white'>Action</th>
             <tr>
@@ -25,19 +15,9 @@
         <tbody>
             <% for(var i=0; i<results.length; i++) {%>
                 <tr>
-                    <td nowrap><%= results[i].Age %></td>
-                    <td nowrap><%= results[i].Conference %></td>
-                    <td nowrap><%= results[i].Date  %></td>
-                    <td nowrap><%= results[i]['Draft Year'] %></td>
-                    <td nowrap><%= results[i].Height %></td>
-                    <td nowrap><%= results[i].Player %></td>
-                    <td nowrap><%= results[i].Position %></td>
-                    <td nowrap><%= results[i].Season %></td>
-                    <td nowrap><%= results[i]['Season short'] %></td>
-                    <td nowrap><%= results[i]['Seasons in league'] %></td>
-                    <td nowrap><%= results[i].Team %></td>
-                    <td nowrap><%= results[i].Weight %></td>
-                    <td nowrap><%= results[i].Real_value %></td>
+                    <% for(var j=0; j<fields.length; j++) {%>
+                        <td><%= results[i][fields[j]] %></td>
+                    <% } %>
                     <% for(var j=1; j<=2; j++) {%>
                         <td nowrap style='<% if(j==2) { %> <%= 'position: absolute; right: 1.5rem;' %> <% } %> width: 9em; background-color: white'>
                             <div class='columns is-gapless'>
