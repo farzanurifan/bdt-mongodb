@@ -5,8 +5,10 @@ const partials = require('express-partials')
 const MongoClient = require('mongodb').MongoClient
 const ObjectId = require('mongodb').ObjectID
 
+const uri = ['mongodb://192.168.33.10:27017', 'mongodb://192.168.33.11:27017', 'mongodb://192.168.33.12:27017']
 const database = 'bdt'
-const table = 'nba'
+const table = 'nba_of_the_week'
+
 const pageItem = 10
 const fields = [
     'Age', 'Conference', 'Date', 'Draft Year', 'Height', 'Player', 'Position',
@@ -24,9 +26,7 @@ app.set('view engine', 'ejs')
 app.use(partials())
 
 var db
-var uri = ['mongodb://192.168.33.10:27017', 'mongodb://192.168.33.11:27017', 'mongodb://192.168.33.12:27017']
 let i = 0
-
 const connect = (uri, i) => MongoClient.connect(uri[i], { useNewUrlParser: true, }, (err, client) => {
     logError(err)
     if (err) {
